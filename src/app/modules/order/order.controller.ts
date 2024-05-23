@@ -80,7 +80,14 @@ const getAllOrders = async (req: Request, res: Response) => {
         .json(new ApiResponse(200, result, 'Orders fetched successfully!'));
     }
   } catch (error) {
-    throw new ApiError(404, 'Something went wrong while fetched the orders');
+    const err = new ApiError(400, 'Order not found');
+    const statusCode = err.statusCode;
+    const message = err.message;
+    const success = err.success;
+    res.status(statusCode).json({
+      success,
+      message,
+    });
   }
 };
 
