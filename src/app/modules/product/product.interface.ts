@@ -1,5 +1,3 @@
-import { Model } from 'mongoose';
-
 export interface TVariant {
   type: string;
   value: string;
@@ -19,4 +17,3 @@ export interface TProduct {
   variants: TVariant[];
   inventory: TInventory;
 }
-

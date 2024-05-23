@@ -123,7 +123,7 @@ const deleteProduct = async (req: Request, res: Response) => {
       throw new ApiError(400, "Product don't exists !");
     }
 
-    const result = await ProductService.deleteSingleProductFromDB(productId);
+    await ProductService.deleteSingleProductFromDB(productId);
     return res
       .status(200)
       .json(new ApiResponse(200, null, 'Product deleted successfully!'));

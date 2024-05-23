@@ -18,7 +18,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // not found route handle
-app.all('*', (req: Request, res: Response, next: NextFunction) => {
+app.all('*', (req: Request, res: Response) => {
   const err = new ApiError(404, 'Route not found');
 
   const success = err.success;
