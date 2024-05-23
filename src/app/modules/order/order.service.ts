@@ -11,7 +11,9 @@ const createOrderIntoDB = async (orderData: TOrder) => {
 // get all order and also handle query
 const getAllOrdersFromDB = async (query: Record<string, any>) => {
   const result = await Order.find(query);
-  return result;
+  const isOrderCount = result.length > 0 ? true : false;
+
+  return { result, isOrderCount };
 };
 
 export const OrderService = {

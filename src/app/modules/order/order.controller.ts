@@ -62,7 +62,19 @@ const getAllOrders = async (req: Request, res: Response) => {
       isQuery = true;
     }
 
-    const result = await OrderService.getAllOrdersFromDB(query);
+    const { result, isOrderCount } =
+      await OrderService.getAllOrdersFromDB(query);
+
+    if (!isOrderCount) {
+      const err = new ApiError(400, 'Order not found');
+      const statusCode = err.statusCode;
+      const message = err.message;
+      const success = err.success;
+      return res.status(statusCode).json({
+        success,
+        message,
+      });
+    }
 
     if (isQuery) {
       return res
@@ -84,7 +96,7 @@ const getAllOrders = async (req: Request, res: Response) => {
     const statusCode = err.statusCode;
     const message = err.message;
     const success = err.success;
-    res.status(statusCode).json({
+    return res.status(statusCode).json({
       success,
       message,
     });
