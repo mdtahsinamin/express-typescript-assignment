@@ -13,3 +13,10 @@ const getAllOrdersFromDB = async (query: Record<string, any>) => {
   const result = await Order.find(query);
   return result;
 };
+
+
+
+export const OrderService = {
+  createOrderIntoDB,
+  getAllOrdersFromDB,
+};

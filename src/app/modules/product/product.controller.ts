@@ -27,18 +27,31 @@ const getAllProducts = async (req: Request, res: Response) => {
   try {
     const searchTerm = req.query.searchTerm;
 
-    console.log(searchTerm);
     let query = {};
+    let isQuery = false;
 
     if (searchTerm) {
       query = { name: { $regex: searchTerm, $options: 'i' } };
+      isQuery = true;
     }
-    
+
     const result = await ProductService.getAllProductsFromDB(query);
 
-    return res
-      .status(200)
-      .json(new ApiResponse(200, result, 'Products fetched successfully!'));
+    if (isQuery) {
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            result,
+            `Products matching search term ${searchTerm} fetched successfully!`,
+          ),
+        );
+    } else {
+      return res
+        .status(200)
+        .json(new ApiResponse(200, result, 'Products fetched successfully!'));
+    }
   } catch (error) {
     throw new ApiError(404, 'Something went wrong while fetched the products');
   }
