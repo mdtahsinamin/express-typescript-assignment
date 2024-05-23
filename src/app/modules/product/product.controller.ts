@@ -25,7 +25,16 @@ const createProduct = async (req: Request, res: Response) => {
 
 const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const result = await ProductService.getAllProductsFromDB();
+    const searchTerm = req.query.searchTerm;
+
+    console.log(searchTerm);
+    let query = {};
+
+    if (searchTerm) {
+      query = { name: { $regex: searchTerm, $options: 'i' } };
+    }
+    
+    const result = await ProductService.getAllProductsFromDB(query);
 
     return res
       .status(200)
@@ -39,6 +48,13 @@ const getAllProducts = async (req: Request, res: Response) => {
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
+
+    // check product exists or not
+    const isExists = await ProductService.getSingleProductFromDB(productId);
+
+    if (!isExists) {
+      throw new ApiError(400, "Product don't exists!");
+    }
 
     const result = await ProductService.getSingleProductFromDB(productId);
 
@@ -55,11 +71,58 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 // update product by id
 
-const updateProduct = async (req: Request, res: Response) => {};
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+    const updatedProductData = req.body.product;
+
+    // check product exists or not
+    const isExists = await ProductService.getSingleProductFromDB(productId);
+
+    if (!isExists) {
+      throw new ApiError(400, "Product don't exists !");
+    }
+
+    const zodParseData = productValidationSchema.parse(updatedProductData); // zod validation on update data
+
+    const result = await ProductService.updateSingleProductInDB(
+      productId,
+      zodParseData,
+    );
+    return res
+      .status(200)
+      .json(new ApiResponse(200, result, 'Product updated successfully!'));
+  } catch (error) {
+    throw new ApiError(400, 'Something went wrong while update the product');
+  }
+};
+
+// delete product by id
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+
+    // check product exists or not
+    const isExists = await ProductService.getSingleProductFromDB(productId);
+
+    if (!isExists) {
+      throw new ApiError(400, "Product don't exists !");
+    }
+
+    const result = await ProductService.deleteSingleProductFromDB(productId);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, 'Product deleted successfully!'));
+  } catch (error) {
+    throw new ApiError(400, 'Something went wrong while delete the product');
+  }
+};
 
 export const ProductControllers = {
   createProduct,
   getAllProducts,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 };
