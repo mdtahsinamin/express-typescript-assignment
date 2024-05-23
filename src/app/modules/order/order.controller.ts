@@ -12,16 +12,32 @@ const createOrder = async (req: Request, res: Response) => {
 
     const zodParseData = orderValidationSchema.parse(orderData); // zod validation
 
+    // find by product id
     const product = await ProductService.getSingleProductFromDB(
       orderData.productId,
     );
 
+    // product exists or not
     if (!product) {
       throw new ApiError(400, 'Product not exists');
     }
+
+    // Check if ordered quantity exceeds available quantity in inventory
     if (orderData.quantity > product.inventory.quantity) {
-      throw new ApiError(400, 'Insufficient stock');
+      throw new ApiError(400, 'Insufficient quantity available in inventory');
     }
+
+    // Update inventory quantity and inStock status
+    if ((product.inventory.quantity -= orderData.quantity) >= 0) {
+      product.inventory.quantity -= orderData.quantity;
+    }
+
+    if (product.inventory.quantity < 0) {
+      product.inventory.inStock = false;
+    }
+
+    // save the product data
+    await product.save();
 
     const result = await OrderService.createOrderIntoDB(zodParseData);
 
@@ -33,6 +49,7 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+// get all order and handle query
 const getAllOrders = async (req: Request, res: Response) => {
   try {
     const email = req.query.email;

@@ -4,3 +4,9 @@ export interface TOrder {
   price: number;
   quantity: number;
 }
+
+export interface TResult<TOrder> {
+  success: boolean;
+  message: string;
+  data: TOrder[] | null;
+}
