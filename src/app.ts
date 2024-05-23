@@ -17,8 +17,16 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
+// not found route handle
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
-  throw new ApiError(404, 'Route not found');
+  const err = new ApiError(404, 'Route not found');
+
+  const success = err.success;
+  const message = err.message;
+  res.status(err.statusCode).json({
+    success,
+    message,
+  });
 });
 
 export default app;

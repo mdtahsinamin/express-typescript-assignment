@@ -6,7 +6,7 @@ class ApiError extends Error {
 
   constructor(
     statusCode: number,
-    message: string = 'Something went wrong',
+    message: string | 'Something went wrong',
     errors: any[] = [],
     stack: string = '',
   ) {
