@@ -104,7 +104,7 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!isExists) {
             throw new ApiError_1.default(400, "Product don't exists !");
         }
-        const result = yield product_service_1.ProductService.deleteSingleProductFromDB(productId);
+        yield product_service_1.ProductService.deleteSingleProductFromDB(productId);
         return res
             .status(200)
             .json(new ApiResponse_1.ApiResponse(200, null, 'Product deleted successfully!'));

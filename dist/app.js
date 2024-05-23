@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 // not found route handle
-app.all('*', (req, res, next) => {
+app.all('*', (req, res) => {
     const err = new ApiError_1.default(404, 'Route not found');
     const success = err.success;
     const message = err.message;
