@@ -43,3 +43,4 @@ exports.ProductService = {
     updateSingleProductInDB,
     deleteSingleProductFromDB,
 };
+//# sourceMappingURL=product.service.js.map

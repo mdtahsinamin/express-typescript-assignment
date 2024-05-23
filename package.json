@@ -1,7 +1,7 @@
 {
   "name": "express-assignment",
   "version": "1.0.0",
-  "main": "src/server.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
     "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",

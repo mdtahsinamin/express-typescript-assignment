@@ -28,7 +28,14 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .json(new ApiResponse_1.ApiResponse(200, result, 'Product created Successfully'));
     }
     catch (error) {
-        throw new ApiError_1.default(500, 'Something went wrong while create a new product');
+        const err = new ApiError_1.default(500, 'Something went wrong while create a new product');
+        const statusCode = err.statusCode;
+        const message = err.message;
+        const success = err.success;
+        return res.status(statusCode).json({
+            success,
+            message,
+        });
     }
 });
 // get all products
@@ -54,7 +61,14 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
     }
     catch (error) {
-        throw new ApiError_1.default(404, 'Something went wrong while fetched the products');
+        const err = new ApiError_1.default(500, 'Something went wrong while fetched the products');
+        const statusCode = err.statusCode;
+        const message = err.message;
+        const success = err.success;
+        return res.status(statusCode).json({
+            success,
+            message,
+        });
     }
 });
 // single product by id
@@ -64,7 +78,14 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         // check product exists or not
         const isExists = yield product_service_1.ProductService.getSingleProductFromDB(productId);
         if (!isExists) {
-            throw new ApiError_1.default(400, "Product don't exists!");
+            const err = new ApiError_1.default(400, "Product don't exists!");
+            const statusCode = err.statusCode;
+            const message = err.message;
+            const success = err.success;
+            return res.status(statusCode).json({
+                success,
+                message,
+            });
         }
         const result = yield product_service_1.ProductService.getSingleProductFromDB(productId);
         return res
@@ -72,7 +93,14 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
             .json(new ApiResponse_1.ApiResponse(200, result, 'Product fetched successfully!'));
     }
     catch (error) {
-        throw new ApiError_1.default(404, 'Something went wrong while fetched the product by ID');
+        const err = new ApiError_1.default(404, 'Something went wrong while fetched the product by ID');
+        const statusCode = err.statusCode;
+        const message = err.message;
+        const success = err.success;
+        return res.status(statusCode).json({
+            success,
+            message,
+        });
     }
 });
 // update product by id
@@ -83,7 +111,14 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // check product exists or not
         const isExists = yield product_service_1.ProductService.getSingleProductFromDB(productId);
         if (!isExists) {
-            throw new ApiError_1.default(400, "Product don't exists !");
+            const err = new ApiError_1.default(400, "Product don't exists!");
+            const statusCode = err.statusCode;
+            const message = err.message;
+            const success = err.success;
+            return res.status(statusCode).json({
+                success,
+                message,
+            });
         }
         const zodParseData = product_validate_1.default.parse(updatedProductData); // zod validation on update data
         const result = yield product_service_1.ProductService.updateSingleProductInDB(productId, zodParseData);
@@ -92,7 +127,14 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .json(new ApiResponse_1.ApiResponse(200, result, 'Product updated successfully!'));
     }
     catch (error) {
-        throw new ApiError_1.default(400, 'Something went wrong while update the product');
+        const err = new ApiError_1.default(404, 'Something went wrong while fetched the product by ID');
+        const statusCode = err.statusCode;
+        const message = err.message;
+        const success = err.success;
+        return res.status(statusCode).json({
+            success,
+            message,
+        });
     }
 });
 // delete product by id
@@ -102,7 +144,14 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // check product exists or not
         const isExists = yield product_service_1.ProductService.getSingleProductFromDB(productId);
         if (!isExists) {
-            throw new ApiError_1.default(400, "Product don't exists !");
+            const err = new ApiError_1.default(400, "Product don't exists!");
+            const statusCode = err.statusCode;
+            const message = err.message;
+            const success = err.success;
+            return res.status(statusCode).json({
+                success,
+                message,
+            });
         }
         yield product_service_1.ProductService.deleteSingleProductFromDB(productId);
         return res
@@ -110,7 +159,14 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .json(new ApiResponse_1.ApiResponse(200, null, 'Product deleted successfully!'));
     }
     catch (error) {
-        throw new ApiError_1.default(400, 'Something went wrong while delete the product');
+        const err = new ApiError_1.default(404, 'Something went wrong while fetched the product by ID');
+        const statusCode = err.statusCode;
+        const message = err.message;
+        const success = err.success;
+        return res.status(statusCode).json({
+            success,
+            message,
+        });
     }
 });
 exports.ProductControllers = {
@@ -120,3 +176,4 @@ exports.ProductControllers = {
     updateProduct,
     deleteProduct,
 };
+//# sourceMappingURL=product.controller.js.map

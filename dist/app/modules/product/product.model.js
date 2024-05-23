@@ -53,3 +53,4 @@ const ProductSchema = new mongoose_1.Schema({
     },
 });
 exports.Product = (0, mongoose_1.model)('Products', ProductSchema);
+//# sourceMappingURL=product.model.js.map

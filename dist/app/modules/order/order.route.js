@@ -9,3 +9,4 @@ const router = express_1.default.Router();
 router.post('/', order_controller_1.OrderControllers.createOrder);
 router.get('/', order_controller_1.OrderControllers.getAllOrders);
 exports.default = router;
+//# sourceMappingURL=order.route.js.map

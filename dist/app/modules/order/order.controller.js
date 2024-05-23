@@ -60,7 +60,17 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             query = { email };
             isQuery = true;
         }
-        const result = yield order_service_1.OrderService.getAllOrdersFromDB(query);
+        const { result, isOrderCount } = yield order_service_1.OrderService.getAllOrdersFromDB(query);
+        if (!isOrderCount) {
+            const err = new ApiError_1.default(400, 'Order not found');
+            const statusCode = err.statusCode;
+            const message = err.message;
+            const success = err.success;
+            return res.status(statusCode).json({
+                success,
+                message,
+            });
+        }
         if (isQuery) {
             return res
                 .status(200)
@@ -77,7 +87,7 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const statusCode = err.statusCode;
         const message = err.message;
         const success = err.success;
-        res.status(statusCode).json({
+        return res.status(statusCode).json({
             success,
             message,
         });
@@ -87,3 +97,4 @@ exports.OrderControllers = {
     createOrder,
     getAllOrders,
 };
+//# sourceMappingURL=order.controller.js.map

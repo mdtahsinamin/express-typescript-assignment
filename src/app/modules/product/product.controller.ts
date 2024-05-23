@@ -17,7 +17,17 @@ const createProduct = async (req: Request, res: Response) => {
       .status(201)
       .json(new ApiResponse(200, result, 'Product created Successfully'));
   } catch (error) {
-    throw new ApiError(500, 'Something went wrong while create a new product');
+    const err = new ApiError(
+      500,
+      'Something went wrong while create a new product',
+    );
+    const statusCode = err.statusCode;
+    const message = err.message;
+    const success = err.success;
+    return res.status(statusCode).json({
+      success,
+      message,
+    });
   }
 };
 
@@ -53,7 +63,17 @@ const getAllProducts = async (req: Request, res: Response) => {
         .json(new ApiResponse(200, result, 'Products fetched successfully!'));
     }
   } catch (error) {
-    throw new ApiError(404, 'Something went wrong while fetched the products');
+    const err = new ApiError(
+      500,
+      'Something went wrong while fetched the products',
+    );
+    const statusCode = err.statusCode;
+    const message = err.message;
+    const success = err.success;
+    return res.status(statusCode).json({
+      success,
+      message,
+    });
   }
 };
 
@@ -66,7 +86,14 @@ const getSingleProduct = async (req: Request, res: Response) => {
     const isExists = await ProductService.getSingleProductFromDB(productId);
 
     if (!isExists) {
-      throw new ApiError(400, "Product don't exists!");
+      const err = new ApiError(400, "Product don't exists!");
+      const statusCode = err.statusCode;
+      const message = err.message;
+      const success = err.success;
+      return res.status(statusCode).json({
+        success,
+        message,
+      });
     }
 
     const result = await ProductService.getSingleProductFromDB(productId);
@@ -75,10 +102,18 @@ const getSingleProduct = async (req: Request, res: Response) => {
       .status(200)
       .json(new ApiResponse(200, result, 'Product fetched successfully!'));
   } catch (error) {
-    throw new ApiError(
+    const err = new ApiError(
       404,
       'Something went wrong while fetched the product by ID',
     );
+
+    const statusCode = err.statusCode;
+    const message = err.message;
+    const success = err.success;
+    return res.status(statusCode).json({
+      success,
+      message,
+    });
   }
 };
 
@@ -93,7 +128,14 @@ const updateProduct = async (req: Request, res: Response) => {
     const isExists = await ProductService.getSingleProductFromDB(productId);
 
     if (!isExists) {
-      throw new ApiError(400, "Product don't exists !");
+      const err = new ApiError(400, "Product don't exists!");
+      const statusCode = err.statusCode;
+      const message = err.message;
+      const success = err.success;
+      return res.status(statusCode).json({
+        success,
+        message,
+      });
     }
 
     const zodParseData = productValidationSchema.parse(updatedProductData); // zod validation on update data
@@ -106,7 +148,18 @@ const updateProduct = async (req: Request, res: Response) => {
       .status(200)
       .json(new ApiResponse(200, result, 'Product updated successfully!'));
   } catch (error) {
-    throw new ApiError(400, 'Something went wrong while update the product');
+    const err = new ApiError(
+      404,
+      'Something went wrong while fetched the product by ID',
+    );
+
+    const statusCode = err.statusCode;
+    const message = err.message;
+    const success = err.success;
+    return res.status(statusCode).json({
+      success,
+      message,
+    });
   }
 };
 
@@ -120,7 +173,14 @@ const deleteProduct = async (req: Request, res: Response) => {
     const isExists = await ProductService.getSingleProductFromDB(productId);
 
     if (!isExists) {
-      throw new ApiError(400, "Product don't exists !");
+      const err = new ApiError(400, "Product don't exists!");
+      const statusCode = err.statusCode;
+      const message = err.message;
+      const success = err.success;
+      return res.status(statusCode).json({
+        success,
+        message,
+      });
     }
 
     await ProductService.deleteSingleProductFromDB(productId);
@@ -128,7 +188,18 @@ const deleteProduct = async (req: Request, res: Response) => {
       .status(200)
       .json(new ApiResponse(200, null, 'Product deleted successfully!'));
   } catch (error) {
-    throw new ApiError(400, 'Something went wrong while delete the product');
+    const err = new ApiError(
+      404,
+      'Something went wrong while fetched the product by ID',
+    );
+
+    const statusCode = err.statusCode;
+    const message = err.message;
+    const success = err.success;
+    return res.status(statusCode).json({
+      success,
+      message,
+    });
   }
 };
 

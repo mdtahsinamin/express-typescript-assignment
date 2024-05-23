@@ -8,3 +8,4 @@ const orderValidationSchema = zod_1.z.object({
     quantity: zod_1.z.number().positive().int(),
 });
 exports.default = orderValidationSchema;
+//# sourceMappingURL=order.validate.js.map

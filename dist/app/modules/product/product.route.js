@@ -12,3 +12,4 @@ router.get('/:productId', product_controller_1.ProductControllers.getSingleProdu
 router.put('/:productId', product_controller_1.ProductControllers.updateProduct);
 router.delete('/:productId', product_controller_1.ProductControllers.deleteProduct);
 exports.default = router;
+//# sourceMappingURL=product.route.js.map

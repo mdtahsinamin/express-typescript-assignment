@@ -24,3 +24,4 @@ const productValidationSchema = zod_1.z.object({
     inventory: inventoryValidationSchema,
 });
 exports.default = productValidationSchema;
+//# sourceMappingURL=product.validate.js.map

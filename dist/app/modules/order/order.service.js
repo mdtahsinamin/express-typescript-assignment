@@ -19,9 +19,11 @@ const createOrderIntoDB = (orderData) => __awaiter(void 0, void 0, void 0, funct
 // get all order and also handle query
 const getAllOrdersFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield order_model_1.Order.find(query);
-    return result;
+    const isOrderCount = result.length > 0 ? true : false;
+    return { result, isOrderCount };
 });
 exports.OrderService = {
     createOrderIntoDB,
     getAllOrdersFromDB,
 };
+//# sourceMappingURL=order.service.js.map
