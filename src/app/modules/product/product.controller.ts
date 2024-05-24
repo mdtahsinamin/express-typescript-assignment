@@ -41,9 +41,17 @@ const getAllProducts = async (req: Request, res: Response) => {
     let isQuery = false;
 
     if (searchTerm) {
-      query = { name: { $regex: searchTerm, $options: 'i' } };
+      query = {
+        $or: [
+          { name: { $regex: searchTerm, $options: 'i' } },
+          { category: { $regex: searchTerm, $options: 'i' } },
+          { description: { $regex: searchTerm, $options: 'i' } },
+        ],
+      };
       isQuery = true;
     }
+
+    console.log(query);
 
     const result = await ProductService.getAllProductsFromDB(query);
 
