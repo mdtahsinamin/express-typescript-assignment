@@ -8,7 +8,7 @@ import { TOrder } from './order.interface';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const orderData: TOrder = req.body.order;
+    const orderData: TOrder = req.body;
 
     const zodParseData = orderValidationSchema.parse(orderData); // zod validation
 

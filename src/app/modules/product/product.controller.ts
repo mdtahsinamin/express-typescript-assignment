@@ -7,7 +7,7 @@ import ApiError from './../../utils/ApiError';
 // create a new product
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const productData = req.body.product;
+    const productData = req.body;
 
     const zodParseData = productValidationSchema.parse(productData); // validation using zod
 
@@ -130,7 +130,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
-    const updatedProductData = req.body.product;
+    const updatedProductData = req.body;
 
     // check product exists or not
     const isExists = await ProductService.getSingleProductFromDB(productId);
