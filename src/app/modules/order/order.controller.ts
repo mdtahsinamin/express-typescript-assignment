@@ -19,20 +19,37 @@ const createOrder = async (req: Request, res: Response) => {
 
     // product exists or not
     if (!product) {
-      throw new ApiError(400, 'Product not exists');
+      const err = new ApiError(400, 'Product not exists');
+      const statusCode = err.statusCode;
+      const message = err.message;
+      const success = err.success;
+      return res.status(statusCode).json({
+        success,
+        message,
+      });
     }
 
     // Check if ordered quantity exceeds available quantity in inventory
     if (orderData.quantity > product.inventory.quantity) {
-      throw new ApiError(400, 'Insufficient quantity available in inventory');
+      const err = new ApiError(
+        400,
+        'Insufficient quantity available in inventory',
+      );
+      const statusCode = err.statusCode;
+      const message = err.message;
+      const success = err.success;
+      return res.status(statusCode).json({
+        success,
+        message,
+      });
     }
 
     // Update inventory quantity and inStock status
-    if ((product.inventory.quantity -= orderData.quantity) >= 0) {
+    if (orderData.quantity - product.inventory.quantity >= 0) {
       product.inventory.quantity -= orderData.quantity;
     }
 
-    if (product.inventory.quantity < 0) {
+    if (product.inventory.quantity <= 0) {
       product.inventory.inStock = false;
     }
 
@@ -45,7 +62,17 @@ const createOrder = async (req: Request, res: Response) => {
       .status(201)
       .json(new ApiResponse(200, result, 'Order created successfully!'));
   } catch (error) {
-    throw new ApiError(500, 'Something went wrong while create a new order');
+    const err = new ApiError(
+      500,
+      'Something went wrong while create a new order',
+    );
+    const statusCode = err.statusCode;
+    const message = err.message;
+    const success = err.success;
+    return res.status(statusCode).json({
+      success,
+      message,
+    });
   }
 };
 
